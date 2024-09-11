@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Issues = ({ API_URI }) => {
   const [allIssues, setAllIssues] = useState([]);
-  const apiKey = "plane_api_765a147c6729496ab93192788bbaf872";
+  const apiKey = "#";
 
   const fetchIssues = async () => {
     try {

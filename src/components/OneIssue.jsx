@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const OneIssue = ({ API_URI }) => {
-  const apiKey = "plane_api_765a147c6729496ab93192788bbaf872";
+  const apiKey = "#";
   const { id } = useParams();
   const [issue, setIssue] = useState({});
   const fetchIssue = async () => {
