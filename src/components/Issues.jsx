@@ -2,9 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const Issues = ({ API_URI }) => {
-  const [allIssues, setAllIssues] = useState([]);
-  const apiKey = "#";
+const Issues = ({ API_URI, apiKey }) => {
+  const [allIssues, setAllIssues] = useState();
 
   const fetchIssues = async () => {
     try {
@@ -28,44 +27,70 @@ const Issues = ({ API_URI }) => {
     fetchIssues();
   }, []);
   return (
-    <main>
-      <h1>Issues</h1>
-      <table border={2}>
-        <thead>
-          <tr>
-            <th>Issue Name</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Assignee</th>
-            <th>Priority</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allIssues.length > 0 ? (
-            allIssues.map((val) => {
-              return (
-                <tr key={val.id}>
-                  <td>
-                    <Link to={`/bookshowapp/${val.id}`}>{val.name}</Link>
-                  </td>
-                  <td>{val.start_date ? val.start_date : "Not Available"}</td>
-                  <td>{val.target_date ? val.target_date : "Not Available"}</td>
-                  <td>
-                    {val.assignees.length > 0 ? val.assignees : "Not Available"}
-                  </td>
-                  <td>{val.priority}</td>
-                  <td>{val.description_html}</td>
-                </tr>
-              );
-            })
-          ) : (
+    <main className="w-full">
+      <h1 className="text-3xl font-bold underline pb-4">Issues</h1>
+      {!allIssues && <div className="">Loading...</div>}
+      {allIssues && (
+        <table
+          border={2}
+          className="w-full table-auto border border-black p-2 border-collapse"
+        >
+          <thead>
             <tr>
-              <td>No Data</td>
+              <th className="border border-black p-1">Issue Name</th>
+              <th className="border border-black p-1">Start Date</th>
+              <th className="border border-black p-1">End Date</th>
+              <th className="border border-black p-1">Assignee</th>
+              <th className="border border-black p-1">Priority</th>
+              <th className="border border-black p-1">Description</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {
+              allIssues.length > 0
+                ? allIssues.map((val) => {
+                    return (
+                      <tr key={val.id}>
+                        <td className="border border-black p-1 text-center">
+                          <Link
+                            to={`/bookshowapp/${val.id}`}
+                            className="text-blue-500"
+                          >
+                            {val.name}
+                          </Link>
+                        </td>
+                        <td className="border border-black p-1 text-center">
+                          {val.start_date ? val.start_date : "Not Available"}
+                        </td>
+                        <td className="border border-black p-1 text-center">
+                          {val.target_date ? val.target_date : "Not Available"}
+                        </td>
+                        <td className="border border-black p-1 text-center">
+                          {val.assignees.length > 0
+                            ? val.assignees
+                            : "Not Available"}
+                        </td>
+                        <td className="border border-black p-1 text-center">
+                          {val.priority}
+                        </td>
+                        <td className="border border-black p-1 text-center">
+                          {val.description_html.replace(/<[^>]+>/g, "")
+                            ? val.description_html.replace(/<[^>]+>/g, "")
+                            : "Not Available"}
+                        </td>
+                      </tr>
+                    );
+                  })
+                : null
+              // <tr>
+              //   <td className="border border-black p-1 text-center" colSpan={6}>
+              //     No Data
+              //   </td>
+              // </tr>
+            }
+          </tbody>
+        </table>
+      )}
     </main>
   );
 };
